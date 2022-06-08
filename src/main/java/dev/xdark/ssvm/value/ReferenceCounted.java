@@ -14,6 +14,8 @@ public interface ReferenceCounted {
 	boolean decreaseRefCount();
 	long getRefCount();
 
+	void touch();
+
 	static <T> T retain(Object value) {
 		if(value instanceof ReferenceCounted) ((ReferenceCounted) value).increaseRefCount();
 		return (T) value;
