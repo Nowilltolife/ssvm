@@ -13,16 +13,24 @@ public abstract class AbstractReferenceCounted implements ReferenceCounted {
 
     @Override
     public void increaseRefCount() {
-        hints.add(new Exception("increase"));
+        List<Throwable> hints = this.hints;
+        if (hints != null) {
+            hints.add(new Exception("increase"));
+        }
         refCountUpdater.incrementAndGet(this);
     }
 
     @Override
     public boolean decreaseRefCount() {
-        hints.add(new Exception("decrease"));
+        List<Throwable> hints = this.hints;
+        if (hints != null)  {
+            hints.add(new Exception("decrease"));
+        }
         long newRefCount = refCountUpdater.decrementAndGet(this);
         if (newRefCount == 0) {
-            hints.add(new Exception("destroy"));
+            if (hints != null) {
+                hints.add(new Exception("destroy"));
+            }
             destroy();
             return true;
         } else {
