@@ -4,6 +4,8 @@ import dev.xdark.ssvm.value.Value;
 
 import java.util.List;
 
+import static dev.xdark.ssvm.value.ReferenceCounted.retain;
+
 /**
  * Method execution stack.
  *
@@ -114,6 +116,7 @@ public interface Stack {
 	default void dupx1() {
 		Value v1 = pop();
 		Value v2 = pop();
+		retain(v1);
 		push(v1);
 		push(v2);
 		push(v1);
@@ -127,6 +130,7 @@ public interface Stack {
 		Value v1 = pop();
 		Value v2 = pop();
 		Value v3 = pop();
+		retain(v1);
 		pushRaw(v1);
 		pushRaw(v3);
 		pushRaw(v2);
@@ -139,6 +143,8 @@ public interface Stack {
 	default void dup2() {
 		Value v1 = pop();
 		Value v2 = pop();
+		retain(v1);
+		retain(v2);
 		pushRaw(v2);
 		pushRaw(v1);
 		pushRaw(v2);
@@ -153,6 +159,8 @@ public interface Stack {
 		Value v1 = pop();
 		Value v2 = pop();
 		Value v3 = pop();
+		retain(v1);
+		retain(v2);
 		pushRaw(v2);
 		pushRaw(v1);
 		pushRaw(v3);
@@ -169,6 +177,8 @@ public interface Stack {
 		Value v2 = pop();
 		Value v3 = pop();
 		Value v4 = pop();
+		retain(v1);
+		retain(v2);
 		pushRaw(v2);
 		pushRaw(v1);
 		pushRaw(v4);

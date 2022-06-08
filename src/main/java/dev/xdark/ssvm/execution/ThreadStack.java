@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static dev.xdark.ssvm.value.ReferenceCounted.release;
+import static dev.xdark.ssvm.value.ReferenceCounted.retain;
 
 /**
  * Method execution stack
@@ -108,7 +109,7 @@ public final class ThreadStack implements Stack, AutoCloseable, Disposable {
 	public void dup() {
 		ThreadRegion stack = this.stack;
 		int cursor = this.cursor;
-		stack.set(this.cursor++, stack.get(cursor - 1));
+		stack.set(this.cursor++, retain(stack.get(cursor - 1)));
 	}
 
 	@Override
