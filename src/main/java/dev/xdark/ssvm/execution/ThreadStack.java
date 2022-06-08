@@ -6,10 +6,13 @@ import dev.xdark.ssvm.util.Disposable;
 import dev.xdark.ssvm.value.TopValue;
 import dev.xdark.ssvm.value.Value;
 import lombok.RequiredArgsConstructor;
+import sun.reflect.ReflectionFactory;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static dev.xdark.ssvm.value.ReferenceCounted.release;
 
 /**
  * Method execution stack
@@ -150,6 +153,9 @@ public final class ThreadStack implements Stack, AutoCloseable, Disposable {
 
 	@Override
 	public void dispose() {
+		for (Value value : stack.unwrap()) {
+			release(value);
+		}
 		stack.dispose();
 	}
 

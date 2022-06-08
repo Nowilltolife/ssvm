@@ -28,6 +28,7 @@ import lombok.experimental.UtilityClass;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.InvokeDynamicInsnNode;
 
+import static dev.xdark.ssvm.value.ReferenceCounted.retain;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -837,7 +838,7 @@ public class JitHelper {
 			VirtualMachine vm = ctx.getVM();
 			InstanceJavaClass exceptionClass = vm.getSymbols().java_lang_NullPointerException();
 			exceptionClass.initialize();
-			exception = vm.getMemoryManager().newInstance(exceptionClass);
+			exception = retain(vm.getMemoryManager().newInstance(exceptionClass));
 			vm.getHelper().invokeExact(exceptionClass, "<init>", "()V", NO_VALUES, new Value[]{exception});
 		}
 		throw new VMException((InstanceValue) exception);

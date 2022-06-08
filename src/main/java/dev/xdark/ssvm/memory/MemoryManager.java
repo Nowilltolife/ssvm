@@ -3,11 +3,7 @@ package dev.xdark.ssvm.memory;
 import dev.xdark.ssvm.mirror.ArrayJavaClass;
 import dev.xdark.ssvm.mirror.InstanceJavaClass;
 import dev.xdark.ssvm.mirror.JavaClass;
-import dev.xdark.ssvm.value.ArrayValue;
-import dev.xdark.ssvm.value.InstanceValue;
-import dev.xdark.ssvm.value.JavaValue;
-import dev.xdark.ssvm.value.ObjectValue;
-import dev.xdark.ssvm.value.Value;
+import dev.xdark.ssvm.value.*;
 
 import java.nio.ByteOrder;
 import java.util.Collection;
@@ -682,4 +678,5 @@ public interface MemoryManager {
 	 * 		Object to deallocate.
 	 */
 	void readyForDeallocation(ObjectValue value);
+
 }

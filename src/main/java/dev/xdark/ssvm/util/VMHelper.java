@@ -49,6 +49,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
+import static dev.xdark.ssvm.value.ReferenceCounted.retain;
+
 /**
  * Provides additional functionality for
  * the VM and simplifies some things.
@@ -2251,7 +2253,7 @@ public final class VMHelper {
 		*/
 		Stack $stack = ctx.getStack();
 		for (Value value : stack) {
-			$stack.pushRaw(value);
+			$stack.pushRaw(retain(value));
 		}
 	}
 

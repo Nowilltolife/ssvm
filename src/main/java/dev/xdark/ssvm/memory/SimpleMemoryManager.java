@@ -2,6 +2,7 @@ package dev.xdark.ssvm.memory;
 
 import dev.xdark.ssvm.VirtualMachine;
 import dev.xdark.ssvm.execution.PanicException;
+import dev.xdark.ssvm.execution.VMException;
 import dev.xdark.ssvm.mirror.ArrayJavaClass;
 import dev.xdark.ssvm.mirror.InstanceJavaClass;
 import dev.xdark.ssvm.mirror.JavaClass;
@@ -21,12 +22,12 @@ import lombok.RequiredArgsConstructor;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+
+import static dev.xdark.ssvm.value.ReferenceCounted.release;
+import static dev.xdark.ssvm.value.ReferenceCounted.retain;
 
 /**
  * Simple and dumb implementation of a memory manager.
@@ -285,11 +286,14 @@ public final class SimpleMemoryManager implements MemoryManager {
 
 	@Override
 	public void writeOop(ObjectValue object, long offset, Object value) {
+		retain(value);
 		object.getMemory().getData().writeLong(offset, UnsafeUtil.addressOf(value));
 	}
 
 	@Override
 	public void writeValue(ObjectValue object, long offset, ObjectValue value) {
+		retain(value);
+		release(objects.get(keyAddress(object.getMemory().getData().readLong(offset))));
 		object.getMemory().getData().writeLong(offset, value.getMemory().getAddress());
 	}
 

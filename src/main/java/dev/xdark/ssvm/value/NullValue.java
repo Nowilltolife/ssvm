@@ -53,4 +53,19 @@ public final class NullValue extends SimpleObjectValue {
 	public void monitorExit() {
 		throw new UnsupportedOperationException("Cannot call on null");
 	}
+
+	@Override
+	protected void destroy() {
+		// do nothing
+	}
+
+	@Override
+	public void increaseRefCount() {
+		// do nothing
+	}
+
+	@Override
+	public boolean decreaseRefCount() {
+		return false;
+	}
 }

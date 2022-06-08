@@ -6,6 +6,8 @@ import dev.xdark.ssvm.execution.Result;
 import dev.xdark.ssvm.jit.JitHelper;
 import org.objectweb.asm.tree.IntInsnNode;
 
+import static dev.xdark.ssvm.value.ReferenceCounted.retain;
+
 /**
  * Allocates new array.
  *
@@ -15,7 +17,7 @@ public final class PrimitiveArrayProcessor implements InstructionProcessor<IntIn
 
 	@Override
 	public Result execute(IntInsnNode insn, ExecutionContext ctx) {
-		ctx.getStack().push(JitHelper.allocatePrimitiveArray(insn.operand, ctx));
+		ctx.getStack().push(retain(JitHelper.allocatePrimitiveArray(insn.operand, ctx)));
 		return Result.CONTINUE;
 	}
 }
